@@ -6,7 +6,7 @@ Version:        2
 Release:        6.%{svnrel}svn.0%{?dist}
 Summary:        JAVA applets for the display of JCAMP-DX and AnIML/CML spectral files
 
-Group:          System Environment/Base
+
 License:        LGPLv2
 URL:            http://jspecview.sourceforge.net/
 # Upstream does not release stable source tarballs. Tarball created with attached script.
@@ -33,7 +33,7 @@ JCAMP-DX and AnIML/CML spectral files.
 
 %package javadoc
 Summary:        Javadocs for %{name}
-Group:          Documentation
+
 Requires:       jpackage-utils
 
 %description javadoc

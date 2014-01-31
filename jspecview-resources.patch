@@ -1,0 +1,22 @@
+diff -up jspecview/JSpecView/build.xml.orig jspecview/JSpecView/build.xml
+--- jspecview/JSpecView/build.xml.orig	2013-05-14 14:43:27.027508840 +0300
++++ jspecview/JSpecView/build.xml	2013-05-14 14:44:33.344617073 +0300
+@@ -74,6 +74,18 @@
+ 	        </linecontains>
+ 	      </filterchain>
+ 	    </copy>
++
++    <copy todir="${bin.dir}/jspecview/application/resources" >
++      <fileset dir="src/jspecview/application/resources">
++        <include name="*" />
++      </fileset>
++    </copy>
++    <copy todir="${bin.dir}/jspecview/application/icons" >
++      <fileset dir="src/jspecview/application/icons">
++        <include name="*" />
++      </fileset>
++    </copy>
++
+ 	    <unjar dest="${bin.dir}" src="${itext.jar}"/>
+         <jar destfile="${build.app.dir}/${ant.project.name}.app.${build.number}.jar">
+             <manifest>

@@ -1,0 +1,54 @@
+diff -up jspecview/JSpecView/build.xml.fedora jspecview/JSpecView/build.xml
+--- jspecview/JSpecView/build.xml.fedora	2013-05-14 00:46:38.000000000 +0300
++++ jspecview/JSpecView/build.xml	2013-05-14 14:50:31.200405006 +0300
+@@ -20,6 +20,7 @@
+ 	<property name="build.number" 		value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>	
+ 	<property name="src.dir"     		value="src"/>
+ 	<property name="lib.dir"     		value="libs"/>
++	<property name="syslib.dir"    		value="/usr/share/java"/>
+ 	<property name="bin.dir" 			value="bin"/>
+     <property name="build.dir"   		value="build"/>
+ 	<property name="build.app.dir"   	value="${build.dir}"/>
+@@ -30,7 +31,7 @@
+     <property name="dist.dir"           value="dist" />
+     <property name="dist.zip"           value="${dist.dir}/jspecview.zip" />
+     <property name="applet.jar"         value="${build.dir}/jspecview.jar" />
+-	<property name="itext.jar" 			value="${lib.dir}/itext-1.4.5-min.jar" />
++	<property name="itext.jar" 			value="${syslib.dir}/itext.jar" />
+ 
+     <path id="jspecviewlib.classpath">
+         <pathelement location="${jsvlib.dir}"/>
+@@ -38,7 +39,7 @@
+     <path id="jspecview.classpath">
+         <pathelement location="bin"/>
+         <pathelement location="libs/netscape.jar"/>
+-    	<pathelement location="libs/${itext.jar}"/>
++    	<pathelement location="${itext.jar}"/>
+         <path refid="jspecviewlib.classpath"/>
+     </path>
+ 
+@@ -80,7 +81,6 @@
+ 	    <unjar dest="${bin.dir}" src="${itext.jar}"/>
+         <jar destfile="${build.app.dir}/${ant.project.name}.app.${build.number}.jar">
+             <manifest>
+-            	<attribute name="Class-Path" value="."/>
+                 <attribute name="Main-Class" value="${main-class}"/>
+             </manifest>
+         	<fileset dir="${bin.dir}" />
+@@ -104,9 +104,6 @@
+ 	    </copy>
+ 	    <!--unjar dest="${bin.dir}" src="${itext.jar}"/ -->
+         <jar destfile="${build.applet.dir}/${ant.project.name}.applet.${build.number}.jar">
+-            <manifest>
+-            	<attribute name="Class-Path" value=". netscape.jar"/>
+-            </manifest>
+         	<fileset dir="${bin.dir}">
+         		<exclude name="jspecview/application/**"/>
+         		<exclude name="com/lowagie/**"/>
+@@ -168,4 +165,4 @@
+        </delete>
+     </target>
+ 
+-</project>
+\ No newline at end of file
++</project>

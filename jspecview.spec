@@ -1,9 +1,13 @@
 %{?_javapackages_macros:%_javapackages_macros}
-%global svnrel 1464
+%global svnrel 1171
 
+%if 0%{?fedora}
+%else
+Epoch:          1
+%endif
 Name:           jspecview
 Version:        2
-Release:        6.%{svnrel}svn.0%{?dist}
+Release:        5.%{svnrel}svn.0%{?dist}
 Summary:        JAVA applets for the display of JCAMP-DX and AnIML/CML spectral files
 
 
@@ -12,17 +16,19 @@ URL:            http://jspecview.sourceforge.net/
 # Upstream does not release stable source tarballs. Tarball created with attached script.
 Source0:        jspecview-%{svnrel}svn.tar.xz
 Source1:        generate-sources.sh
-# Fedora patches: no JMol bindings, no signing
-Patch0:         jspecview-fedora.patch
+# Include missing resources in jar
+Patch0:	  	jspecview-resources.patch
+# Use system libraries
+Patch1:		jspecview-fedorabuild.patch
 BuildArch:      noarch
 
 BuildRequires:  jpackage-utils
 BuildRequires:  java-devel
 BuildRequires:  ant
-BuildRequires:  itext
-BuildRequires:  icedtea-web
+BuildRequires:	itext
+BuildRequires:	icedtea-web
 # Upstream has hardcoded stuff for eclipse setup
-BuildRequires:  eclipse
+BuildRequires:	eclipse
 
 Requires:       jpackage-utils
 Requires:       java
@@ -42,7 +48,8 @@ This package contains the API documentation for %{name}.
 
 %prep
 %setup -q -n jspecview
-%patch0 -p1 -b .fedora
+%patch0 -p1 -b .resources
+%patch1 -p1 -b .fedora
 
 # Fix EOL encodings
 for f in JSpecView/extras/{COPYRIGHT,LICENSE,README}.txt; do
@@ -70,16 +77,13 @@ cd ..
 
 %install
 mkdir -p %{buildroot}%{_javadir}
-
-# Get app version
-ver=`ls JSpecView/build/jspecview.app.*.jar| sed "s|JSpecView/build/jspecview.app.||g;s|.jar||g"`
-install -D -p -m 644 JSpecView/build/jspecview.app.${ver}.jar %{buildroot}%{_javadir}/jspecview.app.jar
-install -D -p -m 644 JSpecView/build/jspecview.applet.${ver}.jar %{buildroot}%{_javadir}/jspecview.applet.jar
+install -D -p -m 644 -t %{buildroot}%{_javadir}/ JSpecView/build/jspecview.app.*.jar
+install -D -p -m 644 -t %{buildroot}%{_javadir}/ JSpecView/build/jspecview.applet.*.jar
 
 # Install symlinks
 pushd %{buildroot}%{_javadir}
-ln -s jspecview.app.jar jspecview.app.${ver}.jar 
-ln -s jspecview.applet.jar jspecview.applet.${ver}.jar 
+ln -s jspecview.app.*.jar jspecview.app.jar
+ln -s jspecview.applet.*.jar jspecview.applet.jar
 popd
 
 # Javadoc
@@ -94,12 +98,6 @@ cp -rp JSpecView/doc/ %{buildroot}%{_javadocdir}/%{name}
 %{_javadocdir}/%{name}/
 
 %changelog
-* Wed Jan 01 2014 Susi Lehtola <jussilehtola@fedoraproject.org> - 2-6.1464svn
-- Update to revision 1464.
-
-* Tue Oct 22 2013 Susi Lehtola <jussilehtola@fedoraproject.org> - 2-6.1171svn
-- Real .jar is unversioned (BZ #1022126).
-
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2-5.1171svn
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 

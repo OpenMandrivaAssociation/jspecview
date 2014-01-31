@@ -1,0 +1,95 @@
+diff -up jspecview/JSpecView/build.xml.fedora jspecview/JSpecView/build.xml
+--- jspecview/JSpecView/build.xml.fedora	2014-01-01 22:34:33.000000000 +0200
++++ jspecview/JSpecView/build.xml	2014-01-01 22:46:36.871615760 +0200
+@@ -21,6 +21,7 @@
+ 	    </classpath>
+ 	  </taskdef>
+ 
++	  <!--
+ 	<property name="jmol.path" value="../Jmol" />
+ 
+ 	  <input message="private property file:" addproperty="Private.propertyFile" defaultValue="none" />
+@@ -28,7 +29,7 @@
+ 	  	<property file="${Private.propertyFile}" />
+ 		<echo>using ${Private.propertyFile}  ${Private.keystore} ${Private.storetype}</echo>
+ 	  </then></if>
+-
++-->
+ 	<property name="debug" value="off" />
+ 	<property file="TODO.txt" prefix="TODO.txt" />
+ 	<property file="build_info.properties"/>
+@@ -75,16 +76,18 @@
+ -->
+ 
+ 	<target name="build">
+-        <echo message="copying files from ${jmol.path}/src/org/jmol/api"/>
+-	    <delete quiet="true">
+-	      <fileset dir="src/org/jmol" includes="**/*.java"/>
+-	    </delete>
+-        <copy overwrite="true" todir="src/org/jmol" >
+-          <fileset dir="${jmol.path}/src/org/jmol">
+-            <include name="api/JmolSyncInterface.java" />
+-            <include name="api/JSVInterface.java" />
+-          </fileset>
+-        </copy>
++	  <!--
++          <echo message="copying files from ${jmol.path}/src/org/jmol/api"/>
++	  <delete quiet="true">
++	    <fileset dir="src/org/jmol" includes="**/*.java"/>
++	  </delete>
++          <copy overwrite="true" todir="src/org/jmol" >
++            <fileset dir="${jmol.path}/src/org/jmol">
++              <include name="api/JmolSyncInterface.java" />
++              <include name="api/JSVInterface.java" />
++            </fileset>
++          </copy>
++-->
+ 		
+         <echo message="getting application icons and resources"/>
+         <mkdir dir="${bin.dir}"/>
+@@ -135,17 +138,19 @@
+ 		<copy overwrite="true" file="${build.dir}/${ant.project.name}.app.${build.number}_unsigned.jar"
+ 			tofile="${build.dir}/JSpecView.jar">
+ 		</copy>
+-		
++		<!--
+ 	    <antcall target="sign-jar-file">
+ 	      <param name="sign-jar-file-dir" value="${build.dir}" />
+ 	      <param name="sign-jar-file-name"  value="JSpecView.jar" />
+ 	    </antcall>
++	    -->
+ 
++	    <!--
+         <echo message="copying application to ${jmol.path}/jars/JSpecView.jar"/>
+ 		<copy overwrite="true" file="${build.dir}/JSpecView.jar"
+ 			tofile="${jmol.path}/jars/JSpecView.jar">
+ 		</copy>
+-
++-->
+     </target>
+ <!---
+ -->
+@@ -183,12 +188,12 @@
+ 		<copy overwrite="true" file="${build.dir}/${ant.project.name}.applet.${build.number}_unsigned.jar"
+ 			tofile="build/JSpecViewApplet.jar">
+ 		</copy>
+-		
++		<!--
+ 	    <antcall target="sign-jar-file">
+ 	      <param name="sign-jar-file-dir" value="${build.dir}" />
+ 	      <param name="sign-jar-file-name"  value="JSpecViewApplet.jar" />
+ 	    </antcall>
+-
++		-->
+ 		<!--
+         <echo message="copying applet to ${jmol.path}/appletfiles/JSpecViewApplet.jar"/>
+ 		
+@@ -293,7 +298,6 @@
+ 		            </fileset>
+ 		        </signjar>
+ 		</else></if>
+-	    <!-- to verify that a .jar file is signed: jarsigner -verify foo.jar -->
++		<!-- to verify that a .jar file is signed: jarsigner -verify foo.jar -->
+ 	  </target>
+-
+ </project>

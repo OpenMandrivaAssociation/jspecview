@@ -12,7 +12,7 @@ Summary:        JAVA applets for the display of JCAMP-DX and AnIML/CML spectral 
 
 
 License:        LGPLv2
-URL:            http://jspecview.sourceforge.net/
+URL:            https://jspecview.sourceforge.net/
 # Upstream does not release stable source tarballs. Tarball created with attached script.
 Source0:        jspecview-%{svnrel}svn.tar.xz
 Source1:        generate-sources.sh
